@@ -1,0 +1,22 @@
+.door-block {
+    margin: 2px auto;
+    width: 300px;
+    max-width: 700px;
+    height: 200px;
+    background-color: #ccc;
+    border-radius: 3px;
+    margin: 2px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.door-block h3 {
+    text-align: left;
+    font-size: 2em;
+    color: #445566;
+    font-family: Georgia, Times, Serif;
+    font-weight: normal;
+    margin: 0;
+    padding: 0px 10px;
+}

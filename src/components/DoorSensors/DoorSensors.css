@@ -1,0 +1,19 @@
+.door-sensors {
+    display: flex;
+    width: 130px;
+    text-align: center;
+    padding: 0px;
+    margin: 1px;
+    background-color: #8fbbd9;
+    border-radius: .5rem;
+}
+
+.door-sensors h4 {
+    text-align: left;
+    font-size: 1em;
+    color: #445566;
+    font-family: Georgia, Times, Serif;
+    font-weight: bold;
+    margin: 0;
+    padding: 0px 10px;
+}

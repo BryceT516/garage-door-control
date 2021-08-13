@@ -1,0 +1,17 @@
+.door-list {
+    padding: 30px;
+    background-color: #f3f3f3;
+    display: flex;
+    flex-direction: column;
+}
+
+.door-list h2 {
+    text-align: center;
+    font-size: 3em;
+    color: #445566;
+    font-family: Georgia, Times, Serif;
+    font-weight: normal;
+    margin: 0;
+    padding: 20px;
+}
+
