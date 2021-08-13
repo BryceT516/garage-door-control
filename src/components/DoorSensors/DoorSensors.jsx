@@ -5,7 +5,7 @@ function DoorSensors (props) {
     return (
         <div className='door-sensors'>
             <h4>Status:</h4>
-            {props.sensors.map(sensor => <DoorSensor info={sensor} />)}
+            {props.sensors.map(sensor => <DoorSensor info={sensor} key={sensor.sensorId} />)}
         </div>
     )
 }
