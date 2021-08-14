@@ -2,6 +2,15 @@ import './App.css';
 import DoorList from './components/DoorList/DoorList';
 import Door from './Door';
 
+const io = require("socket.io-client");
+
+let socket = io("http://localhost:4000",{});
+
+socket.on("connect", server => {
+  console.log("connection made...");
+})
+
+
 function App() {
   let doorList = [
     {       
@@ -34,7 +43,7 @@ function App() {
         {
           sensorId: 3,
           sensorName: 'closed',
-          state: 0,
+          state: 1,
         }
       ],
     }

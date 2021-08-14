@@ -1,23 +1,17 @@
-const express = require('express');
-const server = express();
-const port = 4000;
-
-server.get("/json", (req, res) => {
-    res.json({ message: "Hello world" });
+var port = '4000'
+const httpServer = require("http").createServer();
+const io = require("socket.io")(httpServer, {
+    cors: {
+            origin: "http://localhost:3000",
+            methods: ["GET", "POST"]
+          }
 });
 
-server.get("/", (req, res) => {
-    res.sendFile(__dirname + '/index.html');
-});
-
-server.listen(port, () => {
-    console.log(`Server listening at ${port}`);
+io.on("connection", client => {
+    console.log("connection made!");
 })
 
 
-server.post("/api/activate-door", (req, res) => {
-    let input = req.body;
-    console.log(`received: ${input}`);
-    
-    res.json({ message: "door activated"} );
-});
+
+
+httpServer.listen(port);
