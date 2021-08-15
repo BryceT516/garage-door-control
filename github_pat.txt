@@ -1,0 +1,4 @@
+github personal access token:
+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
+
+Use in place of the password
