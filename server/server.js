@@ -12,7 +12,7 @@ const relayTwo = new Gpio(19, 'out');
 const httpServer = require("http").createServer();
 const io = require("socket.io")(httpServer, {
     cors: {
-            origin: ["http://localhost:3000", "http://192.168.86.28:3000", "http://192.168.86.37:3000"],
+            origin: ["http://localhost:3000", "http://192.168.86.32:3000"],
             methods: ["GET", "POST"]
           }
 });
@@ -25,7 +25,7 @@ let relayTwoOffTimeout = null;
 let relayTwoOnTimeout = null;
 
 let doorList = [
-{       
+{
   doorId: "1",
   doorType: 1,
   doorName: "two-bay door",
@@ -33,16 +33,16 @@ let doorList = [
     {
       sensorId: 0,
       sensorName: 'open',
-      state: 1,
+      state: (doorOneSensorOpen.readSync()) ? 0 : 1,
     },
     {
       sensorId: 1,
       sensorName: 'closed',
-      state: 0,
+      state: (doorOneSensorClosed.readSync()) ? 0 : 1,
     }
   ],
 },
-{ 
+{
   doorId: "2",
   doorType: 0,
   doorName: "one-bay door",
@@ -50,12 +50,12 @@ let doorList = [
     {
       sensorId: 2,
       sensorName: 'open',
-      state: 0,
+      state: (doorTwoSensorOpen.readSync()) ? 0 : 1,
     },
     {
       sensorId: 3,
       sensorName: 'closed',
-      state: 1,
+      state: (doorTwoSensorClosed.readSync()) ? 0 : 1,
     }
   ],
 }
@@ -66,11 +66,11 @@ io.on("connection", (socket) => {
     socket.emit("allData", {doorList: doorList});
     writeRelay(1);
     writeRelay(2);
-    
+
     socket.on("info", (arg) => {
         console.log(`info received: ${arg}`);
     });
-    
+
     socket.on("activate", (arg) => {
         console.log("door activation requested!");
         if (arg == 1) {
@@ -102,35 +102,39 @@ io.on("connection", (socket) => {
         }
         console.log(`relayOneState = ${relayOneState}, relayTwoState = ${relayTwoState}`);
     });
-    
+
     socket.on("getData", () => {
       console.log("data requested...");
-      io.emit("allData", {doorList: doorList});  
+      io.emit("allData", {doorList: doorList});
     });
 })
 
 doorOneSensorOpen.watch((err, value) => {
-    console.log("sensor one open change detected!");
-    doorList[0].doorSensors[0].state = value;
-    io.emit("allData", {doorList: doorList});  
+    console.log(`sensor one open new value = ${value}`);
+    newValue = (value == 1) ? 0 : 1;
+    doorList[0].doorSensors[0].state = newValue;
+    io.emit("allData", {doorList: doorList});
 });
 
 doorOneSensorClosed.watch((err, value) => {
-    console.log("sensor one closed change detected!");
-    doorList[0].doorSensors[1].state = value;
-    io.emit("allData", {doorList: doorList});  
+    console.log(`sensor one closed new value = ${value}`);
+    newValue = (value == 1) ? 0 : 1;
+    doorList[0].doorSensors[1].state = newValue;
+    io.emit("allData", {doorList: doorList});
 });
 
 doorTwoSensorOpen.watch((err, value) => {
-    console.log("sensor two open change detected!");
-    doorList[1].doorSensors[0].state = value;
-    io.emit("allData", {doorList: doorList});  
+    console.log(`sensor two open new value = ${value}`);
+    newValue = (value == 1) ? 0 : 1;
+    doorList[1].doorSensors[0].state = newValue;
+    io.emit("allData", {doorList: doorList});
 });
 
 doorTwoSensorClosed.watch((err, value) => {
-    console.log("sensor two closed change detected!");
-    doorList[1].doorSensors[1].state = value;
-    io.emit("allData", {doorList: doorList});  
+    console.log(`sensor two closed new value = ${value}`);
+    newValue = (value == 1) ? 0 : 1;
+    doorList[1].doorSensors[1].state = newValue;
+    io.emit("allData", {doorList: doorList});
 });
 
 const abort = (relayId) => {
@@ -146,7 +150,7 @@ const abort = (relayId) => {
     }
 }
 
-const activateRelay = (relay) => {    
+const activateRelay = (relay) => {
     console.log(`activating relay... #${relay}`);
     return () => {
         setState(relay);
@@ -159,7 +163,7 @@ const activateRelay = (relay) => {
 const sendActivatedEvent = (relay) => {
     io.emit("events", `activated relay ${relay}`);
 }
-        
+
 
 const setOffTimeout = (relay) => {
     if (relay == 1) {

@@ -13,7 +13,7 @@ class App extends React.Component {
   };  
   
   componentDidMount() {
-    this.socket = this.io("http://192.168.86.37:4000",{});
+    this.socket = this.io("http://192.168.86.32:4000",{});
     
     this.socket.on("connect", (...args) => {
       console.log("connection made...");
