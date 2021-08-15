@@ -3,10 +3,8 @@ import './DoorBlock.css';
 // import DoorActivator from '../DoorActivator/DoorActivator';
 
 function DoorBlock (props) {
-    const activateDoor = () => {
-        // make the api call to activate the door
-        console.log("Activating door");
-        console.log(`door id = ${props.door.id}`);
+    const activateDoor = () => {   
+        props.socket.emit("activate", props.door.id);
     };
 
     return (

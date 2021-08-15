@@ -3,6 +3,8 @@
     background-color: #f3f3f3;
     display: flex;
     flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .door-list h2 {

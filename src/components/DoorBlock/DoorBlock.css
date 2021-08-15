@@ -6,6 +6,8 @@
     background-color: #ccc;
     border-radius: 3px;
     margin: 2px;
+    flex: 0 1 auto;
+    align-self: center;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -19,4 +21,9 @@
     font-weight: normal;
     margin: 0;
     padding: 0px 10px;
+}
+
+.door-block img {
+    flex: 0 0;
+    align-self: center;
 }
